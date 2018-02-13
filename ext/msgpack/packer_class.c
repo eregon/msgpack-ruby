@@ -56,12 +56,19 @@ static void Packer_mark(msgpack_packer_t* pk)
 
 VALUE MessagePack_Packer_alloc(VALUE klass)
 {
-    msgpack_packer_t* pk = ALLOC_N(msgpack_packer_t, 1);
+    // msgpack_packer_t* pk = truffle_managed_malloc(sizeof(msgpack_packer_t));
+    msgpack_packer_t* pk = rb_hash_new();
     msgpack_packer_init(pk);
 
     VALUE self = Data_Wrap_Struct(klass, Packer_mark, Packer_free, pk);
 
-    msgpack_packer_set_to_msgpack_method(pk, s_to_msgpack, self);
+    puts("before msgpack_packer_set_to_msgpack_method");
+    // msgpack_packer_set_to_msgpack_method(pk, s_to_msgpack, self);
+    pk->to_msgpack_method = s_to_msgpack;
+    puts("between msgpack_packer_set_to_msgpack_method");
+    pk->to_msgpack_arg = self;    
+    puts("after msgpack_packer_set_to_msgpack_method");
+
     msgpack_packer_ext_registry_init(&pk->ext_registry);
     pk->buffer_ref = MessagePack_Buffer_wrap(PACKER_BUFFER_(pk), self);
 
@@ -384,4 +391,3 @@ void MessagePack_Packer_module_init(VALUE mMessagePack)
     rb_define_module_function(mMessagePack, "pack", MessagePack_pack_module_method, -1);
     rb_define_module_function(mMessagePack, "dump", MessagePack_dump_module_method, -1);
 }
-

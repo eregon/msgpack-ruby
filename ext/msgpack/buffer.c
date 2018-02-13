@@ -59,7 +59,7 @@ void msgpack_buffer_static_destroy()
 
 void msgpack_buffer_init(msgpack_buffer_t* b)
 {
-    memset(b, 0, sizeof(msgpack_buffer_t));
+    // memset(b, 0, sizeof(msgpack_buffer_t));
 
     b->head = &b->tail;
     b->write_reference_threshold = MSGPACK_BUFFER_STRING_WRITE_REFERENCE_DEFAULT;
@@ -692,4 +692,3 @@ size_t _msgpack_buffer_skip_from_io(msgpack_buffer_t* b, size_t length)
     }
     return RSTRING_LEN(b->io_buffer);
 }
-

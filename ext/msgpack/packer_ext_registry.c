@@ -44,6 +44,9 @@ void msgpack_packer_ext_registry_dup(msgpack_packer_ext_registry_t* src,
         msgpack_packer_ext_registry_t* dst)
 {
 #ifdef HAVE_RB_HASH_DUP
+    rb_tr_debug(src);
+    rb_tr_debug(src->hash);
+    rb_tr_debug(dst);
     dst->hash = rb_hash_dup(src->hash);
     dst->cache = rb_hash_dup(src->cache);
 #else

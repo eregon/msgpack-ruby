@@ -60,7 +60,9 @@ void Factory_mark(msgpack_factory_t* fc)
 
 static VALUE Factory_alloc(VALUE klass)
 {
-    msgpack_factory_t* fc = ALLOC_N(msgpack_factory_t, 1);
+    // msgpack_factory_t* fc = truffle_managed_malloc(sizeof(msgpack_factory_t));
+    // msgpack_factory_t* fc = rb_newobj_of(rb_cObject, INT2FIX(0));
+    msgpack_factory_t* fc = rb_hash_new();
 
     msgpack_packer_ext_registry_init(&fc->pkrg);
     msgpack_unpacker_ext_registry_init(&fc->ukrg);

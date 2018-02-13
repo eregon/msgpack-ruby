@@ -54,7 +54,8 @@ static void Buffer_free(void* data)
 
 static VALUE Buffer_alloc(VALUE klass)
 {
-    msgpack_buffer_t* b = ALLOC_N(msgpack_buffer_t, 1);
+    // msgpack_buffer_t* b = truffle_managed_malloc(sizeof(msgpack_buffer_t));
+    msgpack_buffer_t* b = rb_hash_new();
     msgpack_buffer_init(b);
 
     return Data_Wrap_Struct(klass, msgpack_buffer_mark, Buffer_free, b);
@@ -504,4 +505,3 @@ void MessagePack_Buffer_module_init(VALUE mMessagePack)
     rb_define_alias(cMessagePack_Buffer, "to_s", "to_str");
     rb_define_method(cMessagePack_Buffer, "to_a", Buffer_to_a, 0);
 }
-

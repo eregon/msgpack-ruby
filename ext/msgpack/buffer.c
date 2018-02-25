@@ -267,6 +267,9 @@ static inline msgpack_buffer_chunk_t* _msgpack_buffer_alloc_new_chunk(msgpack_bu
 
 static inline void _msgpack_buffer_add_new_chunk(msgpack_buffer_t* b)
 {
+    rb_tr_debug(b->head);
+    rb_tr_debug(&b->tail);
+    rb_tr_debug(b->head == &b->tail);
     if(b->head == &b->tail) {
         if(b->tail.first == NULL) {
             /* empty buffer */

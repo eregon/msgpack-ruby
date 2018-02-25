@@ -45,9 +45,12 @@ void msgpack_packer_ext_registry_dup(msgpack_packer_ext_registry_t* src,
 {
 #ifdef HAVE_RB_HASH_DUP
     rb_tr_debug(src);
+    puts("src->hash:");
     rb_tr_debug(src->hash);
     rb_tr_debug(dst);
+    puts("Before rb_hash_dup(src->hash)");
     dst->hash = rb_hash_dup(src->hash);
+    puts("After rb_hash_dup(src->hash)");
     dst->cache = rb_hash_dup(src->cache);
 #else
     dst->hash = rb_funcall(src->hash, rb_intern("dup"), 0);

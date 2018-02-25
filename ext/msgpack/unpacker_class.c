@@ -58,7 +58,8 @@ static void Unpacker_mark(msgpack_unpacker_t* uk)
 
 VALUE MessagePack_Unpacker_alloc(VALUE klass)
 {
-    msgpack_unpacker_t* uk = ALLOC_N(msgpack_unpacker_t, 1);
+    // msgpack_unpacker_t* uk = ALLOC_N(msgpack_unpacker_t, 1);
+    msgpack_unpacker_t* uk = rb_hash_new();
     _msgpack_unpacker_init(uk);
 
     VALUE self = Data_Wrap_Struct(klass, Unpacker_mark, Unpacker_free, uk);
@@ -495,4 +496,3 @@ void MessagePack_Unpacker_module_init(VALUE mMessagePack)
     rb_define_module_function(mMessagePack, "load", MessagePack_load_module_method, -1);
     rb_define_module_function(mMessagePack, "unpack", MessagePack_unpack_module_method, -1);
 }
-

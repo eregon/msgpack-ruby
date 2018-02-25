@@ -54,7 +54,9 @@ void msgpack_unpacker_static_destroy()
 
 void _msgpack_unpacker_init(msgpack_unpacker_t* uk)
 {
-    memset(uk, 0, sizeof(msgpack_unpacker_t));
+    //memset(uk, 0, sizeof(msgpack_unpacker_t));
+    uk->stack_depth = 0; // ADDED
+    uk->reading_raw_remaining = 0; // ADDED
 
     msgpack_buffer_init(UNPACKER_BUFFER_(uk));
 
@@ -313,6 +315,7 @@ static inline int read_raw_body_begin(msgpack_unpacker_t* uk, int raw_type)
 
 static int read_primitive(msgpack_unpacker_t* uk)
 {
+    rb_tr_debug(uk->reading_raw_remaining);
     if(uk->reading_raw_remaining > 0) {
         return read_raw_body_cont(uk);
     }
@@ -873,4 +876,3 @@ int msgpack_unpacker_skip_nil(msgpack_unpacker_t* uk)
     }
     return 0;
 }
-
